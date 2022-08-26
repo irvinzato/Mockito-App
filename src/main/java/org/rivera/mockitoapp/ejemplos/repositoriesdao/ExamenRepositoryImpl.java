@@ -7,6 +7,8 @@ import java.util.List;
 
 //Simulación del repositorio de exámenes(La parte que conecta DB, API REST, etc.)
 //Utilizando "mockito" esta implementación da igual, solo bastaría con la interfaz
+//Con mockito género más datos de prueba o casos posibles sin necesidad de tener aquí una implementación
+//Incluso puedo borrar esta clase
 public class ExamenRepositoryImpl implements ExamenRepository{
   @Override
   public List<Examen> findAllExams() {
