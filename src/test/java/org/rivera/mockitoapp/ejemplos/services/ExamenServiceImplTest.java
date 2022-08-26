@@ -78,4 +78,28 @@ class ExamenServiceImplTest {
     assertEquals(5, exam.getQuestions().size());
     assertTrue( exam.getQuestions().contains("Discretas") );
   }
+  //Uso de "verify"
+  @Test
+  void questionsExamTestVerify() {
+    when(repositoryExam.findAllExams()).thenReturn(Datos.EXAMS);
+    when(repositoryQuestions.findQuestionsByExamId(1L)).thenReturn(Datos.QUESTIONS_MAT);
+    Examen exam = service.findExamByNameWithQuestions("Matematicas");
+
+    assertEquals(5, exam.getQuestions().size());
+    assertTrue( exam.getQuestions().contains("Discretas") );
+    //Para asegurarse que los mocks creados sean utilizados
+    verify(repositoryExam).findAllExams();
+    verify(repositoryQuestions).findQuestionsByExamId(1L);  //Importante "match arguments", que coincidan los argumentos
+  }
+
+  @Test
+  void noExistExamTestVerify() {
+    when(repositoryExam.findAllExams()).thenReturn(Datos.EXAMS);
+    when(repositoryQuestions.findQuestionsByExamId(1L)).thenReturn(Datos.QUESTIONS_MAT);
+    Examen exam = service.findExamByNameWithQuestions("Materia que no existe");
+
+    assertNull( exam );
+    verify(repositoryExam).findAllExams();
+    verify(repositoryQuestions).findQuestionsByExamId(1L); //Como el examen sale nulo, no entra al "if" y no se ocupa este mock
+  }
 }
