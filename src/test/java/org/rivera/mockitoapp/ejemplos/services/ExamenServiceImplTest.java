@@ -3,17 +3,23 @@ package org.rivera.mockitoapp.ejemplos.services;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
+
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.rivera.mockitoapp.ejemplos.models.Examen;
 import org.rivera.mockitoapp.ejemplos.repositoriesdao.ExamenRepository;
 import org.rivera.mockitoapp.ejemplos.repositoriesdao.PreguntasRepository;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class ExamenServiceImplTest {
 
   //ASI SERIA SIN MOCKITO, ABAJO ENTRA MOCKITO
@@ -27,15 +33,20 @@ class ExamenServiceImplTest {
     assertEquals(1L, exam.getId());
     assertEquals("Matematicas", exam.getName());
   } */
+  @Mock
   ExamenRepository repositoryExam;
+  @Mock
   PreguntasRepository repositoryQuestions;
-  ExamenService service;
+  @InjectMocks
+  ExamenServiceImpl service;
 
   @BeforeEach
   void setUp() {
-    repositoryExam = mock(ExamenRepository.class);            //Indico que estará mockeada la interfaz
+    //MockitoAnnotations.openMocks(this);
+    //Otra manera es quitar esa forma y usar inyección de dependencias con anotaciones, por ello uso la línea de arriba(pero lo dejo con solo anotaciones)
+    /*repositoryExam = mock(ExamenRepository.class);            //Indico que estará mockeada la interfaz
     repositoryQuestions = mock(PreguntasRepository.class);    //Lo importe de forma estática para no usar "Mockito.mock(ExamenRepository.class)"
-    service = new ExamenServiceImpl( repositoryExam, repositoryQuestions );
+    service = new ExamenServiceImpl( repositoryExam, repositoryQuestions );*/
   }
 
   @Test
