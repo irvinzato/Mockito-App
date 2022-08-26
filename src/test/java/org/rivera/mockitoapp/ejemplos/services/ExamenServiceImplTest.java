@@ -8,6 +8,7 @@ import org.rivera.mockitoapp.ejemplos.repositoriesdao.ExamenRepository;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,5 +51,21 @@ class ExamenServiceImplTest {
     Examen exam = service.findExamByName("Matematicas");
 
     assertNull(exam);
+  }
+
+  //Muy parecido a los métodos de arriba pero lo modifique para usar "Optional<Examen>"
+  @Test
+  void findExamByNameOp() {
+    ExamenRepository repository = mock(ExamenRepository.class);
+    ExamenService service = new ExamenServiceImpl( repository );
+    List<Examen> data = Arrays.asList( new Examen(1L, "Matematicas"), new Examen(2L, "Espanol"), new Examen(4L, "Programacion")
+            , new Examen(5L, "Algoritmos"), new Examen(7L, "POO"));
+
+    when(repository.findAllExams()).thenReturn(data);
+    Optional<Examen> examOp = service.findExamByNameOp("Matematicas");
+
+    assertTrue(examOp.isPresent());
+    assertEquals(1L, examOp.orElseThrow().getId());
+    assertEquals("Matematicas", examOp.get().getName());
   }
 }

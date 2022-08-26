@@ -24,4 +24,12 @@ public class ExamenServiceImpl implements ExamenService{
      }
     return exam;
   }
+
+  //El mismo método de arriba lo hago que retorne un "Optional" para disminuirlo
+  @Override
+  public Optional<Examen> findExamByNameOp(String name) {
+    return  examenRepository.findAllExams().stream()
+            .filter( e -> e.getName().contains(name))
+            .findFirst();
+  }
 }
