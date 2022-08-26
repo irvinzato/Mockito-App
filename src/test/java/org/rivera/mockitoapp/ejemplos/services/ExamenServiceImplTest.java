@@ -40,10 +40,7 @@ class ExamenServiceImplTest {
 
   @Test
   void findExamByName() {
-    List<Examen> data = Arrays.asList( new Examen(1L, "Matematicas"), new Examen(2L, "Espanol"), new Examen(4L, "Programacion")
-            , new Examen(5L, "Algoritmos"), new Examen(7L, "POO"));
-
-    when(repositoryExam.findAllExams()).thenReturn(data);   //Cuando quiera ocupar el método de mi repositorio devuelvo "data"
+    when(repositoryExam.findAllExams()).thenReturn(Datos.EXAMS);   //Cuando quiera ocupar el método de mi repositorio devuelvo "data"
     Examen exam = service.findExamByName("Matematicas");
 
     assertNotNull(exam);
@@ -64,14 +61,21 @@ class ExamenServiceImplTest {
   //Muy parecido a los métodos de arriba pero lo modifique para usar "Optional<Examen>"
   @Test
   void findExamByNameOp() {
-    List<Examen> data = Arrays.asList( new Examen(1L, "Matematicas"), new Examen(2L, "Espanol"), new Examen(4L, "Programacion")
-            , new Examen(5L, "Algoritmos"), new Examen(7L, "POO"));
-
-    when(repositoryExam.findAllExams()).thenReturn(data);
+    when(repositoryExam.findAllExams()).thenReturn(Datos.EXAMS);
     Optional<Examen> examOp = service.findExamByNameOp("Algoritmos");
 
     assertTrue(examOp.isPresent());
     assertEquals(5L, examOp.orElseThrow().getId());
     assertEquals("Algoritmos", examOp.get().getName());
+  }
+
+  @Test
+  void questionsExamTest() {
+    when(repositoryExam.findAllExams()).thenReturn(Datos.EXAMS);
+    when(repositoryQuestions.findQuestionsByExamId(1L)).thenReturn(Datos.QUESTIONS_MAT);
+    Examen exam = service.findExamByNameWithQuestions("Matematicas");
+
+    assertEquals(5, exam.getQuestions().size());
+    assertTrue( exam.getQuestions().contains("Discretas") );
   }
 }
