@@ -12,4 +12,6 @@ public class Datos {
 
   public final static List<String> QUESTIONS_MAT = Arrays.asList("Geometria", "Diferencial", "Ecuaciones"
           , "Discretas", "Ordinarias");
+
+  public final static Examen EXAMEN = new Examen(10L, "Fisica");
 }

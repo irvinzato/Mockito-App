@@ -113,4 +113,21 @@ class ExamenServiceImplTest {
     verify(repositoryExam).findAllExams();
     verify(repositoryQuestions).findQuestionsByExamId(1L); //Como el examen sale nulo, no entra al "if" y no se ocupa este mock
   }
+
+  @Test
+  void saveExamTest() {
+    Examen examMod = Datos.EXAMEN;
+    examMod.setQuestions(Datos.QUESTIONS_MAT);
+    System.out.println(examMod.getQuestions() + " - " + Datos.EXAMEN.getQuestions());
+
+    when(repositoryExam.save(any(Examen.class))).thenReturn(Datos.EXAMEN);
+    Examen exam = service.saveExam(examMod);
+
+    assertNotNull(exam.getId());
+    assertEquals(10L, exam.getId());
+    assertEquals("Fisica", exam.getName());
+
+    verify(repositoryExam).save(any(Examen.class));
+    verify(repositoryQuestions).saveManyQuestions(anyList());
+  }
 }
