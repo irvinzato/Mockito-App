@@ -116,13 +116,17 @@ class ExamenServiceImplTest {
 
   @Test
   void saveExamTest() {
+    //Given (Entornó impulsado al comportamiento)
     Examen examMod = Datos.EXAMEN;
     examMod.setQuestions(Datos.QUESTIONS_MAT);
     System.out.println(examMod.getQuestions() + " - " + Datos.EXAMEN.getQuestions());
 
-    when(repositoryExam.save(any(Examen.class))).thenReturn(Datos.EXAMEN);
+    when(repositoryExam.save(any(Examen.class))).thenReturn(Datos.EXAMEN); //Puedo usar "Answer" para hacer más realista la implementación a una DB(Que incremente solo el ID) 398
+
+    //When
     Examen exam = service.saveExam(examMod);
 
+    //Then
     assertNotNull(exam.getId());
     assertEquals(10L, exam.getId());
     assertEquals("Fisica", exam.getName());
